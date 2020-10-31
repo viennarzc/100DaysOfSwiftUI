@@ -18,12 +18,7 @@ struct ContentView: View {
   var totalPerPerson: Double {
     let peopleCount = Double(numberOfPeople + 2)
     let tipSelection = Double(tipPercentages[tipPercentage])
-    
     let orderAmount = Double(checkAmount) ?? 0
-    
-    let stringValue = "0.5"
-    let doubleValue = Double(stringValue)
-    
     let tipValue = orderAmount / 100 * tipSelection
     let grandTotal = orderAmount + tipValue
     let amountPerPerson = grandTotal / peopleCount
@@ -32,18 +27,24 @@ struct ContentView: View {
 
   }
   
+  var totalAmount: Double {
+    let tipSelection = Double(tipPercentages[tipPercentage])
+    let orderAmount = Double(checkAmount) ?? 0
+    let tipValue = orderAmount / 100 * tipSelection
+    
+    let grandTotal = orderAmount + tipValue
+    
+    return grandTotal
+  }
+  
   var body: some View {
     NavigationView {
       Form {
         Section {
           TextField("Amount", text: $checkAmount)
             .keyboardType(.decimalPad )
-          
-          Picker("Number of People", selection: $numberOfPeople) {
-            ForEach(2 ..< 100) {
-              Text("\($0) people")
-            }
-          }
+          TextField("Number of People", value: $numberOfPeople, formatter: NumberFormatter())
+            .keyboardType(.numberPad)
         }
         
         Section(header: Text("How much tip do you want to leave?")) {
@@ -57,8 +58,12 @@ struct ContentView: View {
           
         }
         
-        Section {
+        Section(header: Text("Amount per Person")) {
           Text("$\(totalPerPerson, specifier: "%.2f")")
+        }
+        
+        Section(header: Text("Total Amount")) {
+          Text("$\(totalAmount, specifier: "%.2f")")
         }
         
       }
@@ -74,6 +79,7 @@ struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     Group {
       ContentView()
+        .previewDevice("iPhone 11")
     }
   }
 }
