@@ -51,7 +51,10 @@ struct ContentView: View {
           
         }
         .alert(isPresented: $showingScore) {
-          Alert(title: Text(scoreTitle), message: Text("Your score is ???"), dismissButton: .default(Text("Continue")))
+          Alert(title: Text(scoreTitle), message: Text("Your score is ???"), dismissButton: .default(Text("Continue")) {
+            self.askQuestion()
+          })
+          
         }
       }
       
@@ -69,7 +72,7 @@ struct ContentView: View {
   }
   
   func askQuestion() {
-    countries.shuffled()
+    countries.shuffle()
     correctAnswer = Int.random(in: 0...2)
   }
 }
