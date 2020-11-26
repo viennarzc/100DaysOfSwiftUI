@@ -7,6 +7,17 @@
 
 import SwiftUI
 
+struct CustomView: ViewModifier {
+  let name: String
+ 
+  
+  func body(content: Content) -> some View {
+    Text("Pogi si \(name)")
+  }
+  
+}
+
+
 struct GridStack<Content: View>: View {
   let rows: Int
   let columns: Int
@@ -23,6 +34,7 @@ struct GridStack<Content: View>: View {
         
       }
     }
+    .foregroundColor(.blue)
   }
   
   init(rows: Int, columns: Int, @ViewBuilder content: @escaping (Int, Int) -> Content) {
@@ -38,11 +50,11 @@ struct ContentView: View {
         
           Image(systemName: "\(row * 4 + col).circle")
           Text("R\(row) C\(col)")
+            .modifier(CustomView(name: "View"))
+        
         
       }
 
-      
-      
     }
 }
 
