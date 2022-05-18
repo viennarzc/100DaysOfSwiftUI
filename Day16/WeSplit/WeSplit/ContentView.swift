@@ -12,6 +12,7 @@ struct ContentView: View {
   @State private var checkAmount = ""
   @State private var numberOfPeople = 2
   @State private var tipPercentage = 2
+  @State private var someAmouint = 0
   
   let tipPercentages = [10, 15, 20, 25, 0]
   
@@ -38,6 +39,7 @@ struct ContentView: View {
   }
   
   var body: some View {
+      
     NavigationView {
       Form {
         Section {
@@ -45,6 +47,16 @@ struct ContentView: View {
             .keyboardType(.decimalPad )
           TextField("Number of People", value: $numberOfPeople, formatter: NumberFormatter())
             .keyboardType(.numberPad)
+            
+            if #available(iOS 15.0, *) {
+                TextField("Some amount",value: $someAmouint, format: .currency(code: "PHP"), prompt: Text("wa"))
+                    .keyboardType(.numberPad)
+                    
+            } else {
+                // Fallback on earlier versions
+            }
+            
+            Text("\(someAmouint)")
         }
         
         Section(header: Text("How much tip do you want to leave?")) {
